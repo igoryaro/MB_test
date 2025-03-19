@@ -87,8 +87,15 @@
     </div>
 
     <div class="button-group">
-      <Button :variant="'outline'" @click="emit('prev')">Voltar</Button>
-      <Button :variant="'fill'" @click="continuar" :disabled="!isValid">
+      <Button :variant="'outline'" :size="'medium'" @click="emit('prev')"
+        >Voltar</Button
+      >
+      <Button
+        :variant="'fill'"
+        :size="'medium'"
+        @click="continuar"
+        :disabled="!isValid"
+      >
         Continuar
       </Button>
     </div>
@@ -113,7 +120,6 @@ const formData = computed({
   set: (value) => emit("update:modelValue", value),
 });
 
-// Estados para rastrear se o usuário tocou nos campos
 const touched = ref({
   cpf: false,
   cnpj: false,
@@ -121,12 +127,10 @@ const touched = ref({
   phone: false,
 });
 
-// Marca um campo como "tocado" quando o usuário sai dele
 const markTouched = (field) => {
   touched.value[field] = true;
 };
 
-// Estados de erro
 const cpfError = computed(
   () => touched.value.cpf && !validateCPF(formData.value.cpf)
 );
@@ -167,7 +171,6 @@ const isValid = computed(() => {
 });
 
 const continuar = () => {
-  // Marca todos os campos como "tocados" para ativar validações ao tentar avançar
   touched.value.cpf = true;
   touched.value.cnpj = true;
   touched.value.date = true;
@@ -197,11 +200,6 @@ const continuar = () => {
   font-weight: bold;
 }
 
-h1 {
-  font-size: 20px;
-  font-weight: bold;
-}
-
 input {
   width: 100%;
   padding: 8px;
@@ -209,38 +207,14 @@ input {
   border-radius: 4px;
 }
 
+.error-message {
+  color: red;
+  font-size: 12px;
+}
+
 .button-group {
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
-}
-
-.btn-outline {
-  background-color: white;
-  color: orange;
-  padding: 10px;
-  border: 1px solid orange;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.btn-primary {
-  background-color: orange;
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.btn-primary:disabled {
-  background-color: orange;
-  cursor: not-allowed;
-  opacity: 50%;
-}
-
-.error-message {
-  color: red;
-  font-size: 12px;
 }
 </style>

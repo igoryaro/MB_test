@@ -13,7 +13,6 @@ app.get("/registration", (req, res) => {
 app.post("/registration", (req, res) => {
   const data = req.body;
 
-  // Validação básica dos campos
   if (!data.email || !data.tipoCadastro || !data.senha) {
     return res
       .status(400)

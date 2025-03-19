@@ -31,7 +31,12 @@
       Selecione um tipo de cadastro.
     </p>
 
-    <Button :variant="'fill'" @click="continuar" :disabled="!isValid">
+    <Button
+      :variant="'fill'"
+      :size="'large'"
+      @click="continuar"
+      :disabled="!isValid"
+    >
       Continuar
     </Button>
   </div>
@@ -96,11 +101,6 @@ const continuar = () => {
   font-weight: bold;
 }
 
-h1 {
-  font-size: 20px;
-  font-weight: bold;
-}
-
 input[type="email"] {
   width: 100%;
   padding: 8px;
@@ -112,21 +112,6 @@ input[type="email"] {
   display: flex;
   gap: 10px;
   align-items: center;
-}
-
-button {
-  background-color: orange;
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:disabled {
-  background-color: orange;
-  cursor: not-allowed;
-  opacity: 50%;
 }
 
 .error-message {

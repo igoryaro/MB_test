@@ -9,14 +9,17 @@
     <p v-if="senhaError" class="error-message">A senha é obrigatória.</p>
 
     <div class="button-group">
-      <button class="btn-outline" @click="emit('prev')">Voltar</button>
-      <button
-        class="btn-primary"
+      <Button :variant="'fill'" :size="'medium'" @click="emit('prev')"
+        >Voltar</Button
+      >
+      <Button
+        :variant="'fill'"
+        :size="'medium'"
         @click="continuar"
         :disabled="!formData.senha"
       >
         Continuar
-      </button>
+      </Button>
     </div>
   </div>
 </template>
@@ -63,11 +66,6 @@ const continuar = () => {
   font-weight: bold;
 }
 
-h1 {
-  font-size: 20px;
-  font-weight: bold;
-}
-
 input {
   width: 100%;
   padding: 8px;
@@ -79,30 +77,6 @@ input {
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
-}
-
-.btn-outline {
-  background-color: white;
-  color: orange;
-  padding: 10px;
-  border: 1px solid orange;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.btn-primary {
-  background-color: orange;
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.btn-primary:disabled {
-  background-color: orange;
-  cursor: not-allowed;
-  opacity: 50%;
 }
 
 .error-message {
