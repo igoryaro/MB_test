@@ -14,17 +14,20 @@
         type="text"
         id="cpf"
         v-model="formData.cpf"
-        @input="validateCPF"
+        v-mask="'###.###.###-##'"
+        @blur="markTouched('cpf')"
         placeholder="000.000.000-00"
       />
       <p v-if="cpfError" class="error-message">CPF inválido.</p>
 
       <label for="dataNascimento">Data de nascimento</label>
       <input
-        type="date"
+        type="text"
         id="dataNascimento"
         v-model="formData.dataNascimento"
-        @change="validateDate"
+        v-mask="'##/##/####'"
+        @blur="markTouched('date')"
+        placeholder="DD/MM/AAAA"
       />
       <p v-if="dateError" class="error-message">Data inválida.</p>
 
@@ -33,8 +36,11 @@
         type="tel"
         id="telefone"
         v-model="formData.telefone"
+        v-mask="'(##) #####-####'"
+        @blur="markTouched('phone')"
         placeholder="(00) 00000-0000"
       />
+      <p v-if="phoneError" class="error-message">Telefone inválido.</p>
     </div>
 
     <div v-else>
@@ -51,17 +57,20 @@
         type="text"
         id="cnpj"
         v-model="formData.cnpj"
-        @input="validateCNPJ"
+        v-mask="'##.###.###/####-##'"
+        @blur="markTouched('cnpj')"
         placeholder="00.000.000/0000-00"
       />
       <p v-if="cnpjError" class="error-message">CNPJ inválido.</p>
 
       <label for="dataAbertura">Data de abertura</label>
       <input
-        type="date"
+        type="text"
         id="dataAbertura"
         v-model="formData.dataAbertura"
-        @change="validateDate"
+        v-mask="'##/##/####'"
+        @blur="markTouched('date')"
+        placeholder="DD/MM/AAAA"
       />
       <p v-if="dateError" class="error-message">Data inválida.</p>
 
@@ -70,21 +79,31 @@
         type="tel"
         id="telefone"
         v-model="formData.telefone"
+        v-mask="'(##) #####-####'"
+        @blur="markTouched('phone')"
         placeholder="(00) 00000-0000"
       />
+      <p v-if="phoneError" class="error-message">Telefone inválido.</p>
     </div>
 
     <div class="button-group">
-      <button class="btn-outline" @click="emit('prev')">Voltar</button>
-      <button class="btn-primary" @click="emit('next')" :disabled="!isValid">
+      <Button :variant="'outline'" @click="emit('prev')">Voltar</Button>
+      <Button :variant="'fill'" @click="continuar" :disabled="!isValid">
         Continuar
-      </button>
+      </Button>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, defineProps, defineEmits } from "vue";
+import {
+  validateCPF,
+  validateCNPJ,
+  validateDate,
+  validatePhone,
+} from "../validators";
+import Button from "../components/Button.vue";
 
 const props = defineProps(["modelValue"]);
 const emit = defineEmits(["update:modelValue", "next", "prev"]);
@@ -94,24 +113,34 @@ const formData = computed({
   set: (value) => emit("update:modelValue", value),
 });
 
-const cpfError = ref(false);
-const cnpjError = ref(false);
-const dateError = ref(false);
+// Estados para rastrear se o usuário tocou nos campos
+const touched = ref({
+  cpf: false,
+  cnpj: false,
+  date: false,
+  phone: false,
+});
 
-const validateCPF = () => {
-  const cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
-  cpfError.value = !cpfRegex.test(formData.value.cpf);
+// Marca um campo como "tocado" quando o usuário sai dele
+const markTouched = (field) => {
+  touched.value[field] = true;
 };
 
-const validateCNPJ = () => {
-  const cnpjRegex = /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/;
-  cnpjError.value = !cnpjRegex.test(formData.value.cnpj);
-};
-
-const validateDate = () => {
-  const date = formData.value.dataNascimento || formData.value.dataAbertura;
-  dateError.value = !date || isNaN(Date.parse(date));
-};
+// Estados de erro
+const cpfError = computed(
+  () => touched.value.cpf && !validateCPF(formData.value.cpf)
+);
+const cnpjError = computed(
+  () => touched.value.cnpj && !validateCNPJ(formData.value.cnpj)
+);
+const dateError = computed(
+  () =>
+    touched.value.date &&
+    !validateDate(formData.value.dataNascimento || formData.value.dataAbertura)
+);
+const phoneError = computed(
+  () => touched.value.phone && !validatePhone(formData.value.telefone)
+);
 
 const isValid = computed(() => {
   if (formData.value.tipoCadastro === "PF") {
@@ -121,20 +150,29 @@ const isValid = computed(() => {
       !cpfError.value &&
       formData.value.dataNascimento &&
       !dateError.value &&
-      formData.value.telefone
+      formData.value.telefone &&
+      !phoneError.value
     );
   }
+
   return (
     formData.value.razaoSocial &&
     formData.value.cnpj &&
     !cnpjError.value &&
     formData.value.dataAbertura &&
     !dateError.value &&
-    formData.value.telefone
+    formData.value.telefone &&
+    !phoneError.value
   );
 });
 
 const continuar = () => {
+  // Marca todos os campos como "tocados" para ativar validações ao tentar avançar
+  touched.value.cpf = true;
+  touched.value.cnpj = true;
+  touched.value.date = true;
+  touched.value.phone = true;
+
   if (isValid.value) {
     emit("next");
   }

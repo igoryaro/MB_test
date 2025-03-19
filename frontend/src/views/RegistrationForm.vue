@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from "vue";
-import Step1 from "../components/Step1.vue";
-import Step2 from "../components/Step2.vue";
-import Step3 from "../components/Step3.vue";
-import Step4 from "../components/Step4.vue";
+import Step1 from "../pages/Step1.vue";
+import Step2 from "../pages/Step2.vue";
+import Step3 from "../pages/Step3.vue";
+import Step4 from "../pages/Step4.vue";
 
 const step = ref(1);
 const formData = ref({
