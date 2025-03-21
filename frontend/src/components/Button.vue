@@ -62,11 +62,11 @@ const sizeClass = computed(() => {
 }
 
 .btn-small {
-  width: 33%;
+  width: 25%;
 }
 
 .btn-medium {
-  width: 66%;
+  width: 45%;
 }
 
 .btn-large {

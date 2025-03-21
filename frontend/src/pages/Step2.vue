@@ -5,7 +5,7 @@
       {{ formData.tipoCadastro === "PF" ? "Pessoa Física" : "Pessoa Jurídica" }}
     </h1>
 
-    <div v-if="formData.tipoCadastro === 'PF'">
+    <div class="d-flex-column" v-if="formData.tipoCadastro === 'PF'">
       <label for="nome">Nome</label>
       <input type="text" id="nome" v-model="formData.nome" required />
 
@@ -18,7 +18,7 @@
         @blur="markTouched('cpf')"
         placeholder="000.000.000-00"
       />
-      <p v-if="cpfError" class="error-message">CPF inválido.</p>
+      <ErrorMessage v-if="cpfError" :message="'CPF inválido.'" />
 
       <label for="dataNascimento">Data de nascimento</label>
       <input
@@ -29,7 +29,7 @@
         @blur="markTouched('date')"
         placeholder="DD/MM/AAAA"
       />
-      <p v-if="dateError" class="error-message">Data inválida.</p>
+      <ErrorMessage v-if="dateError" :message="'Data inválida.'" />
 
       <label for="telefone">Telefone</label>
       <input
@@ -40,10 +40,10 @@
         @blur="markTouched('phone')"
         placeholder="(00) 00000-0000"
       />
-      <p v-if="phoneError" class="error-message">Telefone inválido.</p>
+      <ErrorMessage v-if="phoneError" :message="'Telefone inválido.'" />
     </div>
 
-    <div v-else>
+    <div class="d-flex-column" v-else>
       <label for="razaoSocial">Razão Social</label>
       <input
         type="text"
@@ -61,7 +61,7 @@
         @blur="markTouched('cnpj')"
         placeholder="00.000.000/0000-00"
       />
-      <p v-if="cnpjError" class="error-message">CNPJ inválido.</p>
+      <ErrorMessage v-if="cnpjError" :message="'CNPJ inválido.'" />
 
       <label for="dataAbertura">Data de abertura</label>
       <input
@@ -72,7 +72,7 @@
         @blur="markTouched('date')"
         placeholder="DD/MM/AAAA"
       />
-      <p v-if="dateError" class="error-message">Data inválida.</p>
+      <ErrorMessage v-if="dateError" :message="'Data inválida.'" />
 
       <label for="telefone">Telefone</label>
       <input
@@ -83,7 +83,7 @@
         @blur="markTouched('phone')"
         placeholder="(00) 00000-0000"
       />
-      <p v-if="phoneError" class="error-message">Telefone inválido.</p>
+      <ErrorMessage v-if="phoneError" :message="'Telefone inválido.'" />
     </div>
 
     <div class="button-group">
@@ -103,7 +103,7 @@
 </template>
 
 <script setup>
-import { ref, computed, defineProps, defineEmits } from "vue";
+import { ref, computed } from "vue";
 import {
   validateCPF,
   validateCNPJ,
@@ -111,6 +111,7 @@ import {
   validatePhone,
 } from "../validators";
 import Button from "../components/Button.vue";
+import ErrorMessage from "../components/ErrorMessage.vue";
 
 const props = defineProps(["modelValue"]);
 const emit = defineEmits(["update:modelValue", "next", "prev"]);
@@ -183,33 +184,9 @@ const continuar = () => {
 </script>
 
 <style scoped>
-.step-container {
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  text-align: left;
-}
 
 .step-info {
   font-size: 14px;
-}
-
-.highlight {
-  color: orange;
-  font-weight: bold;
-}
-
-input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.error-message {
-  color: red;
-  font-size: 12px;
 }
 
 .button-group {

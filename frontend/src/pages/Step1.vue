@@ -13,23 +13,20 @@
       @blur="validateEmailInput"
       required
     />
-    <p v-if="touched.email && emailError" class="error-message">
-      Por favor, insira um e-mail válido.
-    </p>
+    <ErrorMessage v-if="touched.email && emailError" :message="'Por favor, insira um e-mail válido.'" />
 
     <div class="radio-group">
-      <label>
-        <input type="radio" v-model="formData.tipoCadastro" value="PF" /> Pessoa
-        Física
-      </label>
-      <label>
+        <label>
+          <input type="radio" v-model="formData.tipoCadastro" value="PF" /> Pessoa
+          Física
+        </label>
+        <label>
         <input type="radio" v-model="formData.tipoCadastro" value="PJ" /> Pessoa
         Jurídica
       </label>
     </div>
-    <p v-if="tipoCadastroError" class="error-message">
-      Selecione um tipo de cadastro.
-    </p>
+    <ErrorMessage v-if="tipoCadastroError" :message="'Selecione um tipo de cadastro.'" />
+
 
     <Button
       :variant="'fill'"
@@ -43,9 +40,10 @@
 </template>
 
 <script setup>
-import { ref, computed, defineProps, defineEmits } from "vue";
+import { ref, computed } from "vue";
 import { validateEmail } from "../validators";
 import Button from "../components/Button.vue";
+import ErrorMessage from "../components/ErrorMessage.vue";
 
 const props = defineProps(["modelValue"]);
 const emit = defineEmits(["update:modelValue", "next"]);
@@ -84,28 +82,9 @@ const continuar = () => {
 </script>
 
 <style scoped>
-.step-container {
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  text-align: left;
-}
 
 .step-info {
   font-size: 14px;
-}
-
-.highlight {
-  color: orange;
-  font-weight: bold;
-}
-
-input[type="email"] {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
 }
 
 .radio-group {
@@ -114,8 +93,4 @@ input[type="email"] {
   align-items: center;
 }
 
-.error-message {
-  color: red;
-  font-size: 12px;
-}
 </style>

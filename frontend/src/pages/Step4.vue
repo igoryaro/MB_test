@@ -11,9 +11,9 @@
       @blur="markTouched('email')"
       required
     />
-    <p v-if="emailError" class="error-message">E-mail inválido.</p>
+    <ErrorMessage v-if="emailError" :message="'E-mail inválido.'" />
 
-    <div v-if="formData.tipoCadastro === 'PF'">
+    <div v-if="formData.tipoCadastro === 'PF'" class="d-flex-column">
       <label for="nome">Nome</label>
       <input
         type="text"
@@ -32,7 +32,7 @@
         @blur="markTouched('cpf')"
         required
       />
-      <p v-if="cpfError" class="error-message">CPF inválido.</p>
+      <ErrorMessage v-if="cpfError" :message="'CPF inválido.'" />
 
       <label for="dataNascimento">Data de nascimento</label>
       <input
@@ -43,7 +43,7 @@
         @blur="markTouched('date')"
         required
       />
-      <p v-if="dateError" class="error-message">Data inválida.</p>
+      <ErrorMessage v-if="dateError" :message="'Data inválida.'" />
 
       <label for="telefone">Telefone</label>
       <input
@@ -54,7 +54,7 @@
         @blur="markTouched('phone')"
         required
       />
-      <p v-if="phoneError" class="error-message">Telefone inválido.</p>
+      <ErrorMessage v-if="phoneError" :message="'Telefone inválido.'" />
 
       <label for="senha">Senha</label>
       <input
@@ -64,10 +64,10 @@
         @blur="markTouched('senha')"
         required
       />
-      <p v-if="passwordError" class="error-message">Senha inválida.</p>
+      <ErrorMessage v-if="passwordError" :message="'Senha inválida.'" />
     </div>
 
-    <div v-else>
+    <div v-else class="d-flex-column">
       <label for="razaoSocial">Razão Social</label>
       <input
         type="text"
@@ -86,7 +86,7 @@
         @blur="markTouched('cnpj')"
         required
       />
-      <p v-if="cnpjError" class="error-message">CNPJ inválido.</p>
+      <ErrorMessage v-if="cnpjError" :message="'CNPJ inválido.'" />
 
       <label for="dataAbertura">Data de abertura</label>
       <input
@@ -97,7 +97,7 @@
         @blur="markTouched('date')"
         required
       />
-      <p v-if="dateError" class="error-message">Data inválida.</p>
+      <ErrorMessage v-if="dateError" :message="'Data inválida.'" />
 
       <label for="telefone">Telefone</label>
       <input
@@ -108,7 +108,7 @@
         @blur="markTouched('phone')"
         required
       />
-      <p v-if="phoneError" class="error-message">Telefone inválido.</p>
+      <ErrorMessage v-if="phoneError" :message="'Telefone inválido.'" />
 
       <label for="senha">Senha</label>
       <input
@@ -118,7 +118,7 @@
         @blur="markTouched('senha')"
         required
       />
-      <p v-if="passwordError" class="error-message">Senha inválida.</p>
+      <ErrorMessage v-if="passwordError" :message="'Senha inválida.'" />
     </div>
 
     <div class="button-group">
@@ -138,7 +138,7 @@
 </template>
 
 <script setup>
-import { ref, computed, defineProps, defineEmits } from "vue";
+import { ref, computed } from "vue";
 import {
   validateEmail,
   validateCPF,
@@ -148,6 +148,7 @@ import {
   validatePassword,
 } from "../validators";
 import Button from "../components/Button.vue";
+import ErrorMessage from "../components/ErrorMessage.vue";
 
 const props = defineProps(["modelValue"]);
 const emit = defineEmits(["update:modelValue", "prev", "submit"]);
@@ -238,28 +239,9 @@ const submitForm = () => {
 </script>
 
 <style scoped>
-.step-container {
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  text-align: left;
-}
 
 .step-info {
   font-size: 14px;
-}
-
-.highlight {
-  color: orange;
-  font-weight: bold;
-}
-
-input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
 }
 
 .button-group {
@@ -268,8 +250,4 @@ input {
   margin-top: 10px;
 }
 
-.error-message {
-  color: red;
-  font-size: 12px;
-}
 </style>

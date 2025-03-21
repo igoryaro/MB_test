@@ -10,7 +10,18 @@ export const validateCNPJ = (cnpj) => {
 
 export const validateDate = (date) => {
   const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
-  return dateRegex.test(date) && !isNaN(Date.parse(date));
+  if (!dateRegex.test(date)) {
+    return false;
+  }
+
+  const [day, month, year] = date.split('/').map(Number);
+  const parsedDate = new Date(year, month - 1, day);
+
+  return (
+    parsedDate.getFullYear() === year &&
+    parsedDate.getMonth() === month - 1 &&
+    parsedDate.getDate() === day
+  );
 };
 
 export const validateEmail = (email) => {

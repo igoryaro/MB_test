@@ -14,10 +14,43 @@ h1 {
   font-weight: bold;
 }
 
+label {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  color: #333;
+}
+
+input[type="email"], input[type="password"], input[type="text"], input[type="tel"] {
+  width: 94.5%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
 .container {
   width: 400px;
   background: #fff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.step-container {
+  width: 20rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+
+.d-flex-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.highlight {
+  color: orange;
+  font-weight: bold;
 }
