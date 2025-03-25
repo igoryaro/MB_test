@@ -21,17 +21,6 @@ const formData = ref({
 
 const nextStep = () => step.value++;
 const prevStep = () => step.value--;
-
-const submitForm = async () => {
-  const response = await fetch("http://localhost:3000/registration", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(formData.value),
-  });
-
-  const data = await response.json();
-  alert(data.message);
-};
 </script>
 
 <template>
