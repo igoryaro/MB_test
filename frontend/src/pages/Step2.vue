@@ -18,7 +18,7 @@
         @blur="markTouched('cpf')"
         placeholder="000.000.000-00"
       />
-      <ErrorMessage v-if="cpfError" :message="'CPF inválido.'" />
+      <MessageComponent v-if="cpfError" :message="'CPF inválido.'" />
 
       <label for="dataNascimento">Data de nascimento</label>
       <input
@@ -29,7 +29,7 @@
         @blur="markTouched('date')"
         placeholder="DD/MM/AAAA"
       />
-      <ErrorMessage v-if="dateError" :message="'Data inválida.'" />
+      <MessageComponent v-if="dateError" :message="'Data inválida.'" />
 
       <label for="telefone">Telefone</label>
       <input
@@ -40,7 +40,7 @@
         @blur="markTouched('phone')"
         placeholder="(00) 00000-0000"
       />
-      <ErrorMessage v-if="phoneError" :message="'Telefone inválido.'" />
+      <MessageComponent v-if="phoneError" :message="'Telefone inválido.'" />
     </div>
 
     <div class="d-flex-column" v-else>
@@ -61,7 +61,7 @@
         @blur="markTouched('cnpj')"
         placeholder="00.000.000/0000-00"
       />
-      <ErrorMessage v-if="cnpjError" :message="'CNPJ inválido.'" />
+      <MessageComponent v-if="cnpjError" :message="'CNPJ inválido.'" />
 
       <label for="dataAbertura">Data de abertura</label>
       <input
@@ -72,7 +72,7 @@
         @blur="markTouched('date')"
         placeholder="DD/MM/AAAA"
       />
-      <ErrorMessage v-if="dateError" :message="'Data inválida.'" />
+      <MessageComponent v-if="dateError" :message="'Data inválida.'" />
 
       <label for="telefone">Telefone</label>
       <input
@@ -83,7 +83,7 @@
         @blur="markTouched('phone')"
         placeholder="(00) 00000-0000"
       />
-      <ErrorMessage v-if="phoneError" :message="'Telefone inválido.'" />
+      <MessageComponent v-if="phoneError" :message="'Telefone inválido.'" />
     </div>
 
     <div class="button-group">
@@ -93,10 +93,10 @@
       <Button
         :variant="'fill'"
         :size="'medium'"
-        @click="continuar"
+        @click="nextStep"
         :disabled="!isValid"
       >
-        Continuar
+      Continuar
       </Button>
     </div>
   </div>
@@ -111,7 +111,7 @@ import {
   validatePhone,
 } from "../validators";
 import Button from "../components/Button.vue";
-import ErrorMessage from "../components/ErrorMessage.vue";
+import MessageComponent from "../components/MessageComponent.vue";
 
 const props = defineProps(["modelValue"]);
 const emit = defineEmits(["update:modelValue", "next", "prev"]);
@@ -171,7 +171,7 @@ const isValid = computed(() => {
   );
 });
 
-const continuar = () => {
+const nextStep = () => {
   touched.value.cpf = true;
   touched.value.cnpj = true;
   touched.value.date = true;
@@ -184,10 +184,6 @@ const continuar = () => {
 </script>
 
 <style scoped>
-
-.step-info {
-  font-size: 14px;
-}
 
 .button-group {
   display: flex;

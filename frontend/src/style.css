@@ -54,3 +54,7 @@ input[type="email"], input[type="password"], input[type="text"], input[type="tel
   color: orange;
   font-weight: bold;
 }
+
+.step-info {
+  font-size: 14px;
+}

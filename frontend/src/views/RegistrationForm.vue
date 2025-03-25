@@ -54,6 +54,7 @@ const submitForm = async () => {
       v-model="formData"
       @submit="submitForm"
       @prev="prevStep"
+      @newUser="step = 1"
     />
   </div>
 </template>

@@ -13,25 +13,24 @@
       @blur="validateEmailInput"
       required
     />
-    <ErrorMessage v-if="touched.email && emailError" :message="'Por favor, insira um e-mail válido.'" />
+    <MessageComponent v-if="touched.email && emailError" :message="'Por favor, insira um e-mail válido.'" />
 
     <div class="radio-group">
-        <label>
-          <input type="radio" v-model="formData.tipoCadastro" value="PF" /> Pessoa
-          Física
-        </label>
-        <label>
+      <label>
+        <input type="radio" v-model="formData.tipoCadastro" value="PF" /> Pessoa
+        Física
+      </label>
+      <label>
         <input type="radio" v-model="formData.tipoCadastro" value="PJ" /> Pessoa
         Jurídica
       </label>
     </div>
-    <ErrorMessage v-if="tipoCadastroError" :message="'Selecione um tipo de cadastro.'" />
-
+    <MessageComponent v-if="tipoCadastroError" :message="'Selecione um tipo de cadastro.'" />
 
     <Button
       :variant="'fill'"
       :size="'large'"
-      @click="continuar"
+      @click="nextStep"
       :disabled="!isValid"
     >
       Continuar
@@ -43,7 +42,7 @@
 import { ref, computed } from "vue";
 import { validateEmail } from "../validators";
 import Button from "../components/Button.vue";
-import ErrorMessage from "../components/ErrorMessage.vue";
+import MessageComponent from "../components/MessageComponent.vue";
 
 const props = defineProps(["modelValue"]);
 const emit = defineEmits(["update:modelValue", "next"]);
@@ -70,7 +69,7 @@ const isValid = computed(() => {
   );
 });
 
-const continuar = () => {
+const nextStep = () => {
   touched.value.email = true;
   emailError.value = !validateEmail(formData.value.email);
   tipoCadastroError.value = !formData.value.tipoCadastro;
@@ -83,14 +82,9 @@ const continuar = () => {
 
 <style scoped>
 
-.step-info {
-  font-size: 14px;
-}
-
 .radio-group {
   display: flex;
   gap: 10px;
   align-items: center;
 }
-
 </style>

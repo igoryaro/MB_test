@@ -6,19 +6,19 @@
     <label for="senha">Sua senha</label>
     <input type="password" id="senha" v-model="formData.senha" required />
 
-    <ErrorMessage v-if="senhaError" :message="'A senha é obrigatória.'" />
+    <MessageComponent v-if="senhaError" :message="'A senha é obrigatória.'" />
 
     <div class="button-group">
-      <Button :variant="'outline'" :size="'medium'" @click="emit('prev')"
-        >Voltar</Button
-      >
+      <Button :variant="'outline'" :size="'medium'" @click="emit('prev')">
+        Voltar
+      </Button>
       <Button
         :variant="'fill'"
         :size="'medium'"
-        @click="continuar"
+        @click="nextStep"
         :disabled="!formData.senha"
       >
-        Continuar
+      Continuar
       </Button>
     </div>
   </div>
@@ -27,7 +27,7 @@
 <script setup>
 import { computed, ref } from "vue";
 import Button from "../components/Button.vue";
-import ErrorMessage from "../components/ErrorMessage.vue";
+import MessageComponent from "../components/MessageComponent.vue";
 
 const props = defineProps(["modelValue"]);
 const emit = defineEmits(["update:modelValue", "next", "prev"]);
@@ -39,7 +39,7 @@ const formData = computed({
 
 const senhaError = ref(false);
 
-const continuar = () => {
+const nextStep = () => {
   if (!formData.value.senha) {
     senhaError.value = true;
   } else {
@@ -51,14 +51,9 @@ const continuar = () => {
 
 <style scoped>
 
-.step-info {
-  font-size: 14px;
-}
-
 .button-group {
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
 }
-
 </style>

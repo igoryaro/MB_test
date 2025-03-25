@@ -13,6 +13,12 @@ app.get("/registration", (req, res) => {
 app.post("/registration", (req, res) => {
   const data = req.body;
 
+  console.log(req.body)
+  // Mock de erro para que seja possível visualizar o cenário de erro 
+  if (data.cpf === "123.456.789-10") {
+    return res.status(422).json({ error: "CPF inválido." });
+  }
+
   if (!data.email || !data.tipoCadastro || !data.senha) {
     return res
       .status(400)
